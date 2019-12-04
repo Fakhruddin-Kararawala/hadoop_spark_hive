@@ -23,12 +23,12 @@ FROM openjdk:8
 
 # download hadoop
 RUN \
-    echo "Download Hadoop(3.2.0)" && wget -q -O /root/hadoop.tar.gz http://apachemirror.wuchna.com/hadoop/common/hadoop-3.2.0/hadoop-3.2.0.tar.gz && \
+    echo "Download Hadoop(3.2.0)" && wget -q -O /root/hadoop.tar.gz https://archive.apache.org/dist/hadoop/common/hadoop-3.2.0/hadoop-3.2.0.tar.gz && \
     echo "untar file" && cd /root && tar zxf hadoop.tar.gz && mv hadoop-3.2.0 /usr/local/hadoop
 
 # download spark
 RUN \
-    echo "Download Spark(2.4.3)" && wget -q -O /root/spark-bin-hadoop.tgz http://apachemirror.wuchna.com/spark/spark-2.4.3/spark-2.4.3-bin-hadoop2.7.tgz && \
+    echo "Download Spark(2.4.3)" && wget -q -O /root/spark-bin-hadoop.tgz https://archive.apache.org/dist/spark/spark-2.4.3/spark-2.4.3-bin-hadoop2.7.tgz && \
     echo "untar file" && cd /root && tar -zxvf spark-bin-hadoop.tgz && mv spark-2.4.3-bin-hadoop2.7 /usr/local/spark
 
 # download hive
@@ -50,11 +50,11 @@ sed 's@session\s*required\s*pam_loginuid.so@session optional pam_loginuid.so@g' 
 # copy hadoop configs
 ADD config/root_bashrc_hadoop.source /root/.bashrc
 RUN mkdir /etc/hadoop	
-ADD config/etc_hadoop_core-site.xml /etc/hadoop/core-site.xml
-ADD config/etc_hadoop_yarn-site.xml /etc/hadoop/yarn-site.xml
-ADD config/etc_hadoop_mapred-site.xml /etc/hadoop/mapred-site.xml
-ADD config/etc_hadoop_hdfs-site.xml /etc/hadoop/hdfs-site.xml
-ADD config/etc_hadoop_capacity-scheduler.xml /etc/hadoop/capacity-scheduler.xml
+ADD config/etc_hadoop_core-site.xml /usr/local/hadoop/etc/hadoop/core-site.xml
+ADD config/etc_hadoop_yarn-site.xml /usr/local/hadoop/etc/hadoop/yarn-site.xml
+ADD config/etc_hadoop_mapred-site.xml /usr/local/hadoop/etc/hadoop/mapred-site.xml
+ADD config/etc_hadoop_hdfs-site.xml /usr/local/hadoop/etc/hadoop/hdfs-site.xml
+ADD config/etc_hadoop_capacity-scheduler.xml /usr/local/hadoop/etc/hadoop/capacity-scheduler.xml
 RUN mkdir -p /data/yarn/nodemanager/log /data/yarn/nodemanager/data /data/hdfs/datanode /data/hdfs/namenode
 RUN mkdir -p /data/transfert
 ADD config/hive-site.xml /usr/local/spark/conf/hive-site.xml
